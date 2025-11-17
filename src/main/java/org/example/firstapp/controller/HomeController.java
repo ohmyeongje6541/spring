@@ -4,7 +4,9 @@ package org.example.firstapp.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.Year;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -74,5 +76,52 @@ public class HomeController {
 
         model.addAttribute("lucky", lucky);
         return "lotto";
+    }
+
+    @GetMapping("/profile/{username}")
+    public String profile(@PathVariable String username, Model model) {
+        model.addAttribute("username", username);
+        return "profile";
+    }
+
+    @GetMapping("/cube/{number}")
+    public String cube(@PathVariable int number, Model model) {
+        int result = number * number * number;
+
+        model.addAttribute("number", number);
+        model.addAttribute("result", result);
+        return "cube";
+    }
+
+    // 짝수 홀수 판별
+    // number/{num} => 짝수인지 홀수인지 판별해서 화면에 출력
+    @GetMapping("/number/{num}")
+    public String number(@PathVariable int num, Model model) {
+//        int result = num;
+//
+//        model.addAttribute("number", num);
+//        model.addAttribute("result", result);
+//        return "number";
+        String result = null;
+        if (num % 2 == 0) {
+            result = "짝수";
+        } else {
+            result = "홀수";
+        }
+        model.addAttribute("number", num);
+        model.addAttribute("result", result);
+        return "number";
+    }
+
+    //나이 계산
+    // /age/{birthYear} => 현재 나이를 계산해서 출력
+    // /age/19990 => 36살입니다.
+    @GetMapping("/age/{birthYear}")
+    public String age(@PathVariable int birthYear, Model model) {
+        int currentYear = Year.now().getValue();
+        int age = currentYear - birthYear;
+
+        model.addAttribute("age", age);
+        return "age";
     }
 }
