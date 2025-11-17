@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Year;
 import java.util.*;
@@ -123,5 +124,21 @@ public class HomeController {
 
         model.addAttribute("age", age);
         return "age";
+    }
+
+    @GetMapping("/ping")
+    public String ping(Model model) {
+        return "ping";
+    }
+
+    @GetMapping("/pong")
+    public String pong(
+            @RequestParam String title,
+            @RequestParam String content,
+            Model model) {
+
+        model.addAttribute("title", title);
+        model.addAttribute("content", content);
+        return "pong";
     }
 }
